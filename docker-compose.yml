@@ -1,0 +1,35 @@
+version: '3.8'
+
+name: ethernaut
+
+services:
+  ethernaut_contract:
+    build:
+      context: ./contracts
+    ports:
+      - "8545:8545"
+    healthcheck:
+      test: |
+        curl -sf -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' http://0.0.0.0:8545
+      interval: 2s
+      retries: 30
+    volumes:
+      - contracts_data:/contracts
+
+  ethernaut_client:
+    build:
+      context: ./client
+      args:
+      - NODE_VERSION=16.20.1
+      - NVM_VERSION=0.40.1
+    ports:
+      - "3000:3000"
+    depends_on:
+      ethernaut_contract:
+        condition: service_healthy
+        restart: true
+    volumes:
+      - contracts_data:/app/src/contracts
+  
+volumes:
+  contracts_data:
