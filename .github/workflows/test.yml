@@ -92,12 +92,8 @@ jobs:
         run: |
           npm install -g yarn
       
-      - name: Dynamic linking contracts folder
-        run: |
-          ln -sf ../contracts src/contracts
-      
-      - name: Install dependencies/ Fix some dependency issues
+      - name: Install dependencies
         run: yarn install
 
       - name: Run build and test
-        run: yarn start
+        run: yarn test
