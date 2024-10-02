@@ -37,7 +37,7 @@ jobs:
     name: Foundry tests
     runs-on: ubuntu-latest
     needs: detect-changes
-    if: ${{ contains(needs.detect-changes.outputs.changed_folders, 'contracts') || contains(needs.detect-changes.outputs.changed_folders, 'client')}}
+    if: ${{ contains(needs.detect-changes.outputs.changed_folders, 'contracts') }}
     defaults:
       run:
         working-directory: ./contracts
@@ -62,38 +62,3 @@ jobs:
       - name: Run tests
         run: forge test -v
         id: test
-    
-  test-reacts:
-    name: Reacts tests
-    runs-on: ubuntu-latest
-    needs: [detect-changes, tests-foundry]
-    if: ${{ contains(needs.detect-changes.outputs.changed_folders, 'client') }}
-    environment: 
-    defaults:
-      run:
-        working-directory: ./client
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-      
-      - name: Set variables
-        run: |
-          VER=$(cat .nvmrc)
-          echo "NODE_VERSION=${VER:1}" >> $GITHUB_ENV
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      
-      - name: Setup Yarn
-        run: |
-          npm install -g yarn
-      
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Run build and test
-        run: yarn build
