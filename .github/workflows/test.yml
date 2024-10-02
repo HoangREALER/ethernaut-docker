@@ -97,7 +97,7 @@ jobs:
           ln -sf ../contracts src/contracts
       
       - name: Install dependencies/ Fix some dependency issues
-        run: yarn add "@babel/core@7.16.0"
+        run: yarn add "@babel/core@7.16.0" --ignore-workspace-root-check --ignore-engines
 
       - name: Run build and test
         run: |
