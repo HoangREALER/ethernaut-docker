@@ -6,7 +6,7 @@ on:
 
 jobs:
   detect-changes:
-    name: Detect Changed Folders or New Folders
+    name: Detect Changed Folders
     runs-on: ubuntu-latest
     outputs:
       changed_folders: ${{ steps.get_changes.outputs.changed_folders }}
