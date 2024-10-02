@@ -5,7 +5,35 @@ on:
   pull_request: {}
 
 jobs:
-  tests:
+  detect-changes:
+    name: Detect Changed Folders or New Folders
+    runs-on: ubuntu-latest
+    outputs:
+      changed_folders: ${{ steps.get_changes.outputs.changed_folders }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get Changed Folders
+        id: get_changes
+        run: |
+          git pull
+          echo "$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
+          CHANGED_FOLDERS_JSON="$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | cut -d/ -f1 | sort -u)"
+          echo "Changed folders: ${CHANGED_FOLDERS_JSON}"
+          CHANGED_FOLDERS_JSON="[\"${CHANGED_FOLDERS_JSON}\"]"
+          CHANGED_FOLDERS_JSON=$(echo $CHANGED_FOLDERS_JSON | sed 's/\s/","/g')
+          #Clean array if empty
+          if [ "$CHANGED_FOLDERS_JSON" == '[""]' ]; then
+            CHANGED_FOLDERS_JSON="[]"
+          fi
+          echo $CHANGED_FOLDERS_JSON
+          echo "changed_folders=$CHANGED_FOLDERS_JSON" >> $GITHUB_OUTPUT
+
+
+  tests-foundry:
     name: Foundry tests
     runs-on: ubuntu-latest
     defaults:
