@@ -37,4 +37,4 @@ docker logs $(docker ps --filter "name=ethernaut-ethernaut_contract" | awk '{if(
 The React web client should be available on `http://127.0.0.1:3000`.
 
 ### Step 4
-Take a coffee and enjoy hacking.
+Take a coffee and enjoy hacking. 
