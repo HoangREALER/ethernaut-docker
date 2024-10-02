@@ -37,7 +37,7 @@ jobs:
     name: Foundry tests
     runs-on: ubuntu-latest
     needs: detect-changes
-    if: ${{ contains(needs.detect-changes.outputs.changed_folders, 'contracts') }}
+    if: ${{ contains(needs.detect-changes.outputs.changed_folders, 'contracts') || contains(needs.detect-changes.outputs.changed_folders, 'client')}}
     defaults:
       run:
         working-directory: ./contracts
@@ -66,7 +66,7 @@ jobs:
   test-reacts:
     name: Reacts tests
     runs-on: ubuntu-latest
-    needs: detect-changes
+    needs: [detect-changes, tests-foundry]
     if: ${{ contains(needs.detect-changes.outputs.changed_folders, 'client') }}
     environment: 
     defaults:
@@ -92,9 +92,14 @@ jobs:
         run: |
           npm install -g yarn
       
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Test
+      - name: Dynamic linking contracts folder
         run: |
-          BROWSER=none yarn start
+          ln -sf ../contracts src/contracts
+      
+      - name: Install dependencies/ Fix some dependency issues
+        run: yarn add "@babel/core@7.16.0"
+
+      - name: Run build and test
+        run: |
+          yarn build
+          yarn test
