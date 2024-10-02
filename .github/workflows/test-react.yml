@@ -72,7 +72,9 @@ jobs:
           working-directory: ./contracts
 
       - name: Install dependencies and build contracts
-        run: forge install
+        run: |
+          forge install
+          forge build
         working-directory: ./contracts
       
       - name: Dynamic linking contracts folder
