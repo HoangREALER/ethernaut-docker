@@ -69,7 +69,7 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
-        working-directory: ./contracts
+          working-directory: ./contracts
 
       - name: Install dependencies and build contracts
         run: forge install
