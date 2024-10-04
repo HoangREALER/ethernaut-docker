@@ -77,11 +77,8 @@ jobs:
           forge build
         working-directory: ./contracts
       
-      - name: Dynamic linking contracts folder
-        run: ln -sf ../contracts src/contracts
-
-      - name: Check shit up 1
-        run: ls -la src/
+      - name: Copy contracts folder
+        run: cp -r ../contracts src/contracts
 
       - name: Run build and test
         run: yarn build
