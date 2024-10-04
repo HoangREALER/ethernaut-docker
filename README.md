@@ -1,7 +1,6 @@
 # Ethernaut Docker Containerized
 
 [![Contract Status](https://github.com/HoangREALER/ethernaut-docker/actions/workflows/test-contracts.yml/badge.svg)](https://github.com/HoangREALER/ethernaut-docker/actions/workflows/test-contracts.yml)
-[![React App Status](https://github.com/HoangREALER/ethernaut-docker/actions/workflows/test-react.yml/badge.svg)](https://github.com/HoangREALER/ethernaut-docker/actions/workflows/test-react.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/HoangREALER/ethernaut-docker/blob/main/LICENSE)
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white&style=for-the-badge)](https://docs.docker.com/)
 
