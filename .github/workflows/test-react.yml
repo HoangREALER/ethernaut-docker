@@ -69,26 +69,19 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
-          working-directory: ../contracts
+          working-directory: ./contracts
 
       - name: Install dependencies and build contracts
         run: |
           forge install
           forge build
-        working-directory: ../contracts
-      
-      - name: Check shit up 1
-        run: ls -la contracts/
-
-      - name: Check shit up 2
-        run: ls -la ../contracts
-      
-      - name: Check shit up 3
-        run: ls -la contracts
-        working-directory: ../contracts
+        working-directory: ./contracts
       
       - name: Dynamic linking contracts folder
-        run: ln -sf ../contracts src/contracts
+        run: ln -s -f ../contracts src/contracts
+
+      - name: Check shit up 1
+        run: ls -la contracts/
 
       - name: Run build and test
         run: yarn build
