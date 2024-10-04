@@ -1,0 +1,42 @@
+name: Build and Publish Docker image to Github
+on:
+  workflow_dispatch
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+  packages: write
+
+jobs:
+  publish_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and Push Docker Image for Contracts
+        working-directory: ./contracts
+        run: |
+          # Check Dockerfile
+          if [ ! -f Dockerfile ]; then
+            echo "Dockerfile not found to build contracts image"
+            exit 1
+          fi
+
+          # Set the image name and tag based
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/ethernaut-contracts:latest
+
+          # Build docker image
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
