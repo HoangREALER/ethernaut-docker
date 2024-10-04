@@ -25,6 +25,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
+      - name: Lowecase workaround
+        id: lower-repo
+        run: |
+          echo "repository=${GITHUB_REPOSITORY@L}" >> $GITHUB_OUTPUT
+
       - name: Build and Push Docker Image for Contracts
         working-directory: ./contracts
         run: |
@@ -35,7 +40,7 @@ jobs:
           fi
 
           # Set the image name and tag based
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/ethernaut-contracts:latest
+          IMAGE_NAME=ghcr.io/${{ steps.lower-repo.outputs.repository }}/ethernaut-contracts:latest
 
           # Build docker image
           docker build -t $IMAGE_NAME .
