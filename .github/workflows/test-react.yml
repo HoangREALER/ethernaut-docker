@@ -1,4 +1,4 @@
-name: Test
+name: Client App Tests
 on:
   push:
     branches: [main]

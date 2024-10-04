@@ -1,4 +1,4 @@
-name: Test
+name: Contracts Tests
 on:
   push:
     branches: [main]
