@@ -62,7 +62,7 @@ jobs:
           npm install -g yarn
       
       - name: Install dependencies for React app
-        run: yarn install
+        run: yarn add file:./deps/hljs --ignore-workspace-root-check --ignore-engines
 
       # Build smart contracts
       - name: Install Foundry
